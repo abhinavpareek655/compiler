@@ -24,7 +24,7 @@ public class Parser {
             "function", "constructor", "lparen", "rparen", "arrow", "void",
             "local", "attribute", "colon", "int", "float", "assign", "if", "then",
             "else", "while", "read", "write", "return", "lsqbr", "rsqbr", "comma",
-            "eq", "neq", "lt", "gt", "lteq", "gteq", "addition", "subtraction", "or", "not",
+            "eq", "neq", "lt", "gt", "leq", "geq", "addition", "subtraction", "or", "not",
             "*", "/", "and", "self", "floatlit", "intlit", "dot", "implementation", "ε", "comment", "multi_line_comment", "$"
     );
 
@@ -434,8 +434,8 @@ public class Parser {
                 List.of("ARITHEXPR", "EXPR2"));
 
         // EXPR2 rule
-        addEntry(table, "EXPR2", List.of("eq", "neq", "lt", "gt", "lteq", "gteq"), List.of("RELOP", "ARITHEXPR"));
-        addEntry(table, "EXPR2", List.of("rparen", "semicolon", "comma", "rsqbr"), List.of("ε"));
+        addEntry(table, "EXPR2", List.of("eq", "neq", "lt", "gt", "leq", "geq"), List.of("RELOP", "ARITHEXPR"));
+        addEntry(table, "EXPR2", List.of("rparen", "semicolon", "comma", "rsqbr", "multiplication"), List.of("ε"));
 
         // RELEXPR rule
         addEntry(table, "RELEXPR", List.of("id", "self", "floatlit", "intlit", "lparen", "not", "addition", "subtraction"),
@@ -446,19 +446,21 @@ public class Parser {
         addEntry(table, "RELOP", List.of("neq"), List.of("neq"));
         addEntry(table, "RELOP", List.of("lt"), List.of("lt"));
         addEntry(table, "RELOP", List.of("gt"), List.of("gt"));
-        addEntry(table, "RELOP", List.of("lteq"), List.of("lteq"));
-        addEntry(table, "RELOP", List.of("gteq"), List.of("gteq"));
+        addEntry(table, "RELOP", List.of("leq"), List.of("leq"));
+        addEntry(table, "RELOP", List.of("geq"), List.of("geq"));
+        addEntry(table, "RELOP", List.of("rparen"), List.of("ε"));
+
 
         // ARITHEXPR rule
         addEntry(table, "ARITHEXPR", List.of("id", "self", "floatlit", "intlit", "lparen", "not", "addition", "subtraction"),
                 List.of("TERM", "RIGHTRECARITHEXPR"));
-        addEntry(table, "ARITHEXPR", List.of("rparen", "semicolon", "comma", "eq", "neq", "lt", "gt", "lteq", "gteq", "rsqbr"),
+        addEntry(table, "ARITHEXPR", List.of("rparen", "semicolon", "comma", "eq", "neq", "lt", "gt", "leq", "geq", "rsqbr"),
                 List.of("ε"));
 
         // RIGHTRECARITHEXPR rule
         addEntry(table, "RIGHTRECARITHEXPR", List.of("addition", "subtraction", "or"),
                 List.of("ADDOP", "TERM", "RIGHTRECARITHEXPR"));
-        addEntry(table, "RIGHTRECARITHEXPR", List.of("rparen", "semicolon", "comma", "eq", "neq", "lt", "gt", "lteq", "gteq", "rsqbr"),
+        addEntry(table, "RIGHTRECARITHEXPR", List.of("multiplication", "division", "rparen", "semicolon", "comma", "eq", "neq", "lt", "gt", "leq", "geq", "rsqbr"),
                 List.of("ε"));
 
         // ADDOP rule
@@ -472,7 +474,7 @@ public class Parser {
 
         // RIGHTRECTERM rule
         addEntry(table, "RIGHTRECTERM", List.of("*", "/", "and"), List.of("MULTOP", "FACTOR", "RIGHTRECTERM"));
-        addEntry(table, "RIGHTRECTERM", List.of("rparen", "multiplication", "semicolon", "comma", "addition", "subtraction", "or", "eq", "neq", "lt", "gt", "lteq", "gteq", "rsqbr"),
+        addEntry(table, "RIGHTRECTERM", List.of("rparen", "multiplication", "semicolon", "comma", "addition", "subtraction", "or", "eq", "neq", "lt", "gt", "leq", "geq", "rsqbr"),
                 List.of("ε"));
 
         // MULTOP rule
@@ -501,7 +503,7 @@ public class Parser {
         // INDICES rule
         addEntry(table, "INDICES", List.of("lsqbr"), List.of("INDICE", "INDICES"));
         addEntry(table, "INDICES", List.of("rsqbr"), List.of("INDICE", "INDICES"));
-        addEntry(table, "INDICES", List.of("assign","rparen", "semicolon", "comma", "dot", "addition", "subtraction", "or", "eq", "neq", "lt", "gt", "leq", "gteq", "*", "/", "and", "rsqbr"),
+        addEntry(table, "INDICES", List.of("assign","rparen", "semicolon", "comma", "dot", "addition", "subtraction", "or", "eq", "neq", "lt", "gt", "leq", "geq", "*", "/", "and", "rsqbr"),
                 List.of("ε"));
 
         // INDICE rule
@@ -509,7 +511,7 @@ public class Parser {
 
         // REPTVARIABLEORFUNCTIONCALL rule
         addEntry(table, "REPTVARIABLEORFUNCTIONCALL", List.of("dot"), List.of("IDNEST", "REPTVARIABLEORFUNCTIONCALL"));
-        addEntry(table, "REPTVARIABLEORFUNCTIONCALL", List.of("rparen", "subtraction", "semicolon", "comma", "addition", "or", "eq", "neq", "lt", "gt", "lteq", "gteq", "multiplication","*", "/", "and", "rsqbr"),
+        addEntry(table, "REPTVARIABLEORFUNCTIONCALL", List.of("rparen", "subtraction", "semicolon", "comma", "addition", "or", "eq", "neq", "lt", "gt", "leq", "geq", "multiplication","*", "/", "and", "rsqbr"),
                 List.of("ε"));
 
         // IDNEST rule
