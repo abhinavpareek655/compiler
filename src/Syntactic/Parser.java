@@ -337,6 +337,7 @@ public class Parser {
                 List.of("STATEMENT"));
 
         // LOCALVARDECLORSTAT2 rule
+        addEntry(table, "LOCALVARDECLORSTAT2", List.of("comment"), List.of("comment", "LOCALVARDECLORSTAT2"));
         addEntry(table, "LOCALVARDECLORSTAT2", List.of("local", "id", "self", "if", "while", "read", "write", "return"),
                 List.of("LOCALVARDECLORSTAT", "LOCALVARDECLORSTAT2"));
         addEntry(table, "LOCALVARDECLORSTAT2", List.of("rbrace"), List.of("ε"));
@@ -471,7 +472,7 @@ public class Parser {
 
         // RIGHTRECTERM rule
         addEntry(table, "RIGHTRECTERM", List.of("*", "/", "and"), List.of("MULTOP", "FACTOR", "RIGHTRECTERM"));
-        addEntry(table, "RIGHTRECTERM", List.of("rparen", "semicolon", "comma", "addition", "subtraction", "or", "eq", "neq", "lt", "gt", "lteq", "gteq", "rsqbr"),
+        addEntry(table, "RIGHTRECTERM", List.of("rparen", "multiplication", "semicolon", "comma", "addition", "subtraction", "or", "eq", "neq", "lt", "gt", "lteq", "gteq", "rsqbr"),
                 List.of("ε"));
 
         // MULTOP rule
@@ -495,12 +496,12 @@ public class Parser {
         // FACTOR2 rule
         addEntry(table, "FACTOR2", List.of("lparen"), List.of("lparen", "APARAMS", "rparen"));
         addEntry(table, "FACTOR2", List.of("lsqbr"), List.of("INDICES"));
-        addEntry(table, "FACTOR2", List.of("semicolon","addition", "lt", "subtraction", "rparen", "comma", "rsqbr"), List.of("ε"));
+        addEntry(table, "FACTOR2", List.of("semicolon","addition", "lt", "subtraction", "rparen", "comma", "rsqbr", "multiplication", "leq", "dot"), List.of("ε"));
 
         // INDICES rule
         addEntry(table, "INDICES", List.of("lsqbr"), List.of("INDICE", "INDICES"));
         addEntry(table, "INDICES", List.of("rsqbr"), List.of("INDICE", "INDICES"));
-        addEntry(table, "INDICES", List.of("assign","rparen", "semicolon", "comma", "dot", "addition", "subtraction", "or", "eq", "neq", "lt", "gt", "lteq", "gteq", "*", "/", "and", "rsqbr"),
+        addEntry(table, "INDICES", List.of("assign","rparen", "semicolon", "comma", "dot", "addition", "subtraction", "or", "eq", "neq", "lt", "gt", "leq", "gteq", "*", "/", "and", "rsqbr"),
                 List.of("ε"));
 
         // INDICE rule
@@ -508,7 +509,7 @@ public class Parser {
 
         // REPTVARIABLEORFUNCTIONCALL rule
         addEntry(table, "REPTVARIABLEORFUNCTIONCALL", List.of("dot"), List.of("IDNEST", "REPTVARIABLEORFUNCTIONCALL"));
-        addEntry(table, "REPTVARIABLEORFUNCTIONCALL", List.of("rparen", "subtraction", "semicolon", "comma", "addition", "subtraction", "or", "eq", "neq", "lt", "gt", "lteq", "gteq", "*", "/", "and", "rsqbr"),
+        addEntry(table, "REPTVARIABLEORFUNCTIONCALL", List.of("rparen", "subtraction", "semicolon", "comma", "addition", "or", "eq", "neq", "lt", "gt", "lteq", "gteq", "multiplication","*", "/", "and", "rsqbr"),
                 List.of("ε"));
 
         // IDNEST rule
